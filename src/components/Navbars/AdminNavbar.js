@@ -18,6 +18,7 @@ import LanguageDrop from "../Language/LanguageDrop";
 import { useHistory } from "react-router-dom";
 const AdminNavbar = (props) => {
   const dispatch = useDispatch();
+  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
   const history = useHistory();
   return (
     <>
@@ -67,7 +68,7 @@ const AdminNavbar = (props) => {
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {userInfo?.fullName}
                     </span>
                   </Media>
                 </Media>

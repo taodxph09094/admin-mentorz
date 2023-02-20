@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import * as httpServices from '../../services/httpServices';
+import { useCallback, useEffect, useState } from "react";
+import * as httpServices from "../../services/all/httpServices";
 
 export const usePostData = (
   url,
@@ -8,7 +8,7 @@ export const usePostData = (
   isReload,
   isRunFirst = true,
   success = null,
-  fail = null,
+  fail = null
 ) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState();
@@ -26,7 +26,7 @@ export const usePostData = (
   }, []);
 
   const _postData = async (customUrl = null, customData = null) => {
-    let endpoint = '';
+    let endpoint = "";
 
     if (customUrl) {
       endpoint = customUrl;
@@ -35,16 +35,19 @@ export const usePostData = (
     }
     setIsLoading(true);
     try {
-      const response = await httpServices.postData(endpoint, customData ? customData : requestData);
+      const response = await httpServices.postData(
+        endpoint,
+        customData ? customData : requestData
+      );
       setIsLoading(false);
       setData(response);
-      if (typeof success === 'function') {
+      if (typeof success === "function") {
         success(response);
       }
     } catch (err) {
       setError(err);
       setIsLoading(false);
-      if (typeof fail === 'function') {
+      if (typeof fail === "function") {
         fail(err);
       }
     }

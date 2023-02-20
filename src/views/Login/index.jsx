@@ -20,17 +20,20 @@ import { useTranslation } from "react-i18next";
 const Login = () => {
   const dispatch = useDispatch();
   const auth = GetAuthSelector();
-  const { isLogin, isSendRequest } = auth;
+  const { isLogin, isSendRequest, isAdmin } = auth;
   const { t } = useTranslation();
   useEffect(() => {
     if (auth?.error?.data?.message) {
       alertService.error(auth?.error?.data?.message);
+    } else if (!isAdmin) {
+      alertService.error("Tài khoản của bạn không có quyền truy cập");
     }
   }, [auth]);
 
   if (isLogin) {
     return <Redirect to={RouteBase.Home} />;
   }
+
   const formInitValue = {
     rememberMe: false,
     account: "",

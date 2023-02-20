@@ -1,6 +1,7 @@
-import withErrorBoundary from 'components/HOCs/withErrorBoundary';
-import { RouteBase } from 'constants/routeUrl';
-import Dashboard from 'views/Dashboard/index';
+import withErrorBoundary from "components/HOCs/withErrorBoundary";
+import { RouteBase } from "constants/routeUrl";
+import Dashboard from "views/Dashboard/index";
+import Universities from "../views/Universities";
 // import Dashboard from 'views/Index';
 // const HomePage = lazy(() => import('views/Home'));
 // const Dashboard = lazy(() => import('views/Dashboard'));
@@ -10,32 +11,42 @@ const securityRoutes = [
   // List Security URL
   {
     path: RouteBase.Dashboard,
-    name: 'menu:sidebar.dashboard',
-    icon: 'ni ni-tv-2 text-primary',
+    name: "menu:sidebar.dashboard",
+    icon: "ni ni-tv-2 text-primary",
     component: withErrorBoundary(Dashboard),
-    layout: '/admin',
+    layout: "/admin",
     showInMenu: true,
   },
   {
-    path: 'business',
-    name: 'menu:sidebar.business',
-    icon: 'ni ni-tv-2 text-primary',
-    layout: '/admin',
+    path: RouteBase.Users,
+    name: "menu:sidebar.users",
+    icon: "ni ni-tv-2 text-primary",
+    layout: "/admin",
     showInMenu: true,
   },
   {
-    path: 'system',
-    name: 'menu:sidebar.system',
-    icon: 'ni ni-tv-2 text-primary',
-    layout: '/admin',
+    path: RouteBase.HighSchools,
+    name: "Trung học phổ thông",
+    icon: "ni ni-tv-2 text-primary",
+    layout: "/admin",
     showInMenu: true,
   },
   {
-    path: 'transaction',
-    name: 'Transaction',
-    icon: 'ni ni-tv-2 text-primary',
-    // component: withErrorBoundary(TransactionList),
-    layout: '/admin',
+    path: "university",
+    name: "Đại học",
+    icon: "ni ni-tv-2 text-primary",
+    layout: "/admin",
+    showInMenu: true,
+    children: [
+      {
+        path: RouteBase.Universities,
+        name: "Danh sách trường",
+        icon: "ni ni-tv-2 text-primary",
+        component: withErrorBoundary(Universities),
+        layout: "/admin",
+        showInMenu: true,
+      },
+    ],
   },
 ];
 

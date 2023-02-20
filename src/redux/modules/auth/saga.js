@@ -9,15 +9,16 @@ function* login({ payload }) {
   try {
     const responseData = yield call(authServices.postLogin, account, password);
     if (responseData?.status === CodeConstants.successLogin) {
-      console.log(responseData?.data?.fullName);
-      // if (responseData?.data.fullName === "Admin") {
-      authServices.saveUserLocalStorage({
-        account,
-        isLogged: true,
-        access_token: responseData?.data?.token,
-      });
-      yield put({ type: types.REQUEST_LOGIN_SUCCESS });
-      // }
+      sessionStorage.setItem("userData", JSON.stringify(responseData?.data));
+      if (responseData?.data.fullName === "Admin") {
+        authServices.saveUserLocalStorage({
+          account,
+          isAdmin: true,
+          isLogged: true,
+          access_token: responseData?.data?.token,
+        });
+        yield put({ type: types.REQUEST_LOGIN_SUCCESS });
+      }
     }
   } catch (error) {
     yield put({ type: types.REQUEST_LOGIN_FAILED, error });
