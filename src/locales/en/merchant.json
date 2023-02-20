@@ -1,0 +1,42 @@
+{
+    "field.merchant": "Merchant",
+    "field.address": "Address",
+    "field.phone": "Phone number",
+    "field.email": "Email",
+    "field.fullName": "Full name",
+    "field.password": "Password",
+    "field.userName": "Username",
+    "field.staffName": " Staffname",
+    "field.posId": "Point of sale id",
+
+    "table.merchant" : "Merchant",
+    "table.address": "Address",
+    "table.phone": "Phone number",
+    "table.enabled.enable": "Enable",
+    "table.enabled.disable": "Disable",
+    "table.enabled": "Enabled",
+
+    "button.reset": "Reset",
+    "button.search": "Search",
+    "button.add" : "Create new",
+    "button.update": "Update",
+
+    "placeholder.name": "Input name",
+    "placeholder.phone": "Input phone number",
+    "placeholder.email": "Input email",
+    "placeholder.fullName": "Input full name",
+    "placeholder.userName": "Input username",
+    "placeholder.password": "Input password",
+    "placeholder.staffName": "Input staff name",
+
+    "message.update.success": "Update successful !",
+    "message.update.error": "Update failed !",
+    "message.create.success": "Successfully added account !",
+    "message.create.error": "Failed account added !",
+    "message.create.category.error": "Success added category !",
+    "message.create.category.success": "Failed category added !",
+    "message.create.product.success": "Success added product !",
+    "message.create.product.error": "Failed product added",
+
+    "validate.required": "Please enter "
+}
