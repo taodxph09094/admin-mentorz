@@ -1,8 +1,8 @@
 /*eslint-disable*/
-import React, { useState } from 'react';
-import { Link, NavLink as NavLinkRRD } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, NavLink as NavLinkRRD } from "react-router-dom";
 // nodejs library to set properties for components
-import { PropTypes } from 'prop-types';
+import { PropTypes } from "prop-types";
 // reactstrap components
 import {
   Col,
@@ -19,20 +19,20 @@ import {
   NavLink,
   Row,
   UncontrolledDropdown,
-} from 'reactstrap';
-import { logout } from 'redux/modules/auth';
-import { useDispatch } from 'react-redux';
-import LanguageDrop from '../Language/LanguageDrop';
-import { useTranslation } from 'react-i18next';
+} from "reactstrap";
+import { logout } from "redux/modules/auth";
+import { useDispatch } from "react-redux";
+import LanguageDrop from "../Language/LanguageDrop";
+import { useTranslation } from "react-i18next";
 var ps;
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [openMenu, setOpenMenu] = useState('');
+  const [openMenu, setOpenMenu] = useState("");
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
-    return props.location.pathname.indexOf(routeName) > -1 ? 'active' : '';
+    return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
   const wrapper = React.createRef();
   // toggles collapse between opened and closed (true/false)
@@ -50,8 +50,8 @@ const Sidebar = (props) => {
       if (prop?.children?.length > 0) {
         if (prop?.showInMenu === true) {
           return (
-            <Nav key={'nav' + prop?.name + prop?.path} navbar>
-              <NavItem key={'navItem' + key + prop.layout + prop.path}>
+            <Nav key={"nav" + prop?.name + prop?.path} navbar>
+              <NavItem key={"navItem" + key + prop.layout + prop.path}>
                 <NavLink
                   href="#"
                   // to={prop.layout + prop.path}
@@ -69,11 +69,14 @@ const Sidebar = (props) => {
                   <span className="nav-link-text">{t(prop.name)}</span>
                 </NavLink>
                 <Collapse
-                  key={'collapse' + prop?.name + prop?.path}
+                  key={"collapse" + prop?.name + prop?.path}
                   ref={wrapper}
                   isOpen={openMenu === prop.path ? true : false}
                 >
-                  <Nav key={'children' + prop?.name + prop?.path + key} className="nav-sm flex-column">
+                  <Nav
+                    key={"children" + prop?.name + prop?.path + key}
+                    className="nav-sm flex-column"
+                  >
                     {createLinks(prop?.children)}
                   </Nav>
                 </Collapse>
@@ -84,9 +87,14 @@ const Sidebar = (props) => {
       } else {
         if (prop?.showInMenu === true) {
           return (
-            <Nav key={'nav' + prop?.name + prop?.path} navbar>
+            <Nav key={"nav" + prop?.name + prop?.path} navbar>
               <NavItem key={key}>
-                <NavLink to={prop.layout + prop.path} tag={NavLinkRRD} onClick={closeCollapse} activeClassName="active">
+                <NavLink
+                  to={prop.layout + prop.path}
+                  tag={NavLinkRRD}
+                  onClick={closeCollapse}
+                  activeClassName="active"
+                >
                   <i className={prop.icon} />
                   <span className="nav-link-text">{t(prop.name)}</span>
                 </NavLink>
@@ -103,8 +111,13 @@ const Sidebar = (props) => {
     return routes.map((prop, key) => {
       if (prop?.showInMenu === true)
         return (
-          <NavItem key={'navItem' + key + prop.layout + prop.path}>
-            <NavLink to={prop.layout + prop.path} tag={NavLinkRRD} onClick={closeCollapse} activeClassName="active">
+          <NavItem key={"navItem" + key + prop.layout + prop.path}>
+            <NavLink
+              to={prop.layout + prop.path}
+              tag={NavLinkRRD}
+              onClick={closeCollapse}
+              activeClassName="active"
+            >
               {/* <i className={prop.icon} /> */}
               {t(prop.name)}
             </NavLink>
@@ -123,21 +136,33 @@ const Sidebar = (props) => {
   } else if (logo && logo.outterLink) {
     navbarBrandProps = {
       href: logo.outterLink,
-      target: '_blank',
+      target: "_blank",
     };
   }
 
   return (
-    <Navbar className="navbar-vertical fixed-left navbar-light bg-white" expand="md" id="sidenav-main">
+    <Navbar
+      className="navbar-vertical fixed-left navbar-light bg-white"
+      expand="md"
+      id="sidenav-main"
+    >
       <Container fluid>
         {/* Toggler */}
-        <button className="navbar-toggler" type="button" onClick={toggleCollapse}>
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={toggleCollapse}
+        >
           <span className="navbar-toggler-icon" />
         </button>
         {/* Brand */}
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img alt={logo.imgAlt} className="navbar-brand-img" src={logo.imgSrc} />
+            <img
+              alt={logo.imgAlt}
+              className="navbar-brand-img"
+              src={logo.imgSrc}
+            />
           </NavbarBrand>
         ) : null}
         {/* User */}
@@ -146,7 +171,11 @@ const Sidebar = (props) => {
             <DropdownToggle nav className="nav-link-icon">
               <i className="ni ni-bell-55" />
             </DropdownToggle>
-            <DropdownMenu aria-labelledby="navbar-default_dropdown_1" className="dropdown-menu-arrow" right>
+            <DropdownMenu
+              aria-labelledby="navbar-default_dropdown_1"
+              className="dropdown-menu-arrow"
+              right
+            >
               <DropdownItem>Action</DropdownItem>
               <DropdownItem>Another action</DropdownItem>
               <DropdownItem divider />
@@ -157,7 +186,13 @@ const Sidebar = (props) => {
             <DropdownToggle nav>
               <Media className="align-items-center">
                 <span className="avatar avatar-sm rounded-circle">
-                  <img alt="..." src={require('../../assets/img/theme/team-1-800x800.jpg').default} />
+                  <img
+                    alt="..."
+                    src={
+                      require("../../assets/img/theme/team-1-800x800.jpg")
+                        .default
+                    }
+                  />
                 </span>
               </Media>
             </DropdownToggle>
@@ -214,7 +249,11 @@ const Sidebar = (props) => {
                 </Col>
               ) : null}
               <Col className="collapse-close" xs="6">
-                <button className="navbar-toggler" type="button" onClick={toggleCollapse}>
+                <button
+                  className="navbar-toggler"
+                  type="button"
+                  onClick={toggleCollapse}
+                >
                   <span />
                   <span />
                 </button>

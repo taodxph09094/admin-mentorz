@@ -3,14 +3,25 @@ import { logout } from "redux/modules/auth";
 import { API_URL_EDU } from "../../constants/api";
 import { CodeConstants } from "../../constants/ApiCode";
 import store from "../../redux/store";
+import moment from "moment-timezone";
 
+export const setHeader = () => {
+  const headers = {
+    "Content-Type": "application/json; charset=utf-8",
+    "X-Timezone-Offset": moment.tz.guess(),
+    Authorization: "Bearer",
+  };
+  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+
+  if (!!userInfo) {
+    headers.Authorization = `Bearer ${userInfo.token}`;
+  }
+  return headers;
+};
 const instance = axios.create({
   baseURL: API_URL_EDU,
   timeout: 30000,
-  headers: {
-    Accept: "*/*",
-    "Content-Type": "application/json",
-  },
+  headers: setHeader(),
 });
 
 instance.interceptors.response.use(

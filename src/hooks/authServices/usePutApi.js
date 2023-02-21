@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import * as httpServices from "../../services/all/httpServices";
+import { useCallback, useEffect, useState } from 'react';
+import * as httpServices from '../../services/httpServices';
 
 export const usePutData = (
   url,
@@ -8,7 +8,7 @@ export const usePutData = (
   isReload,
   isRunFirst = true,
   success = null,
-  fail = null
+  fail = null,
 ) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState();
@@ -26,7 +26,7 @@ export const usePutData = (
   }, []);
 
   const _putData = async (customUrl = null, customData = null) => {
-    let endpoint = "";
+    let endpoint = '';
 
     if (customUrl) {
       endpoint = customUrl;
@@ -35,20 +35,17 @@ export const usePutData = (
     }
     setIsLoading(true);
     try {
-      const response = await httpServices.putData(
-        endpoint,
-        customData ? customData : requestData
-      );
+      const response = await httpServices.putData(endpoint, customData ? customData : requestData);
       console.log(response);
       setIsLoading(false);
       setData(response);
-      if (typeof success === "function") {
+      if (typeof success === 'function') {
         success(response);
       }
     } catch (err) {
       setError(err);
       setIsLoading(false);
-      if (typeof fail === "function") {
+      if (typeof fail === 'function') {
         fail(err);
       }
     }

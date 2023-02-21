@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BaseAdminContainer from "../../components/BaseAdminContainer";
 import { Link } from "react-router-dom";
+import * as Yup from "yup";
 import {
   Badge,
   Button,
@@ -13,23 +14,35 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import Panels from "../../components/Core/Panels";
+import { Field, Form, Formik } from "formik";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { RouteBase } from "../../constants/routeUrl";
 import { usePostData } from "../../hooks/services/usePostApi";
 import { EDU_URL } from "../../constants/api";
 import CustomDataTable from "../../components/Core/CustomDataTable";
 import MCreate from "./Modal/MCreate";
+import MUpdate from "./Modal/MUpdate";
+import { useGetData } from "../../hooks/services/useGetApi";
+
 const Universities = (props) => {
   const { refreshParent } = props;
   const initParams = {
     page: 0,
     size: 20,
   };
-  const styleBtn = { color: "#5e72e4", cursor: "pointer", fontSize: 18 };
+  const styleBtn = {
+    color: "#5e72e4",
+    cursor: "pointer",
+    fontSize: 18,
+    margin: 5,
+  };
 
+  let index;
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.id,
+      name: "STT",
+      selector: (row) => index++,
       sortable: true,
     },
     {
@@ -68,20 +81,11 @@ const Universities = (props) => {
       cell: (row) => {
         return (
           <>
-            <i
+            <AiOutlineEdit
               style={styleBtn}
-              className="ni ni-check-bold mr-3"
-              title="hi"
-              //   title={t('users:button.update_info')}
-              //   onClick={(event) => updateUser(event, row)}
+              onClick={(event) => update(event, row)}
             />
-            <i
-              style={styleBtn}
-              className="ni ni-curved-next"
-              title="ha"
-              //   title={t('users:button.reset_pass')}
-              //   onClick={(event) => resetPass(event, row)}
-            />
+            <AiOutlineDelete style={styleBtn} />
           </>
         );
       },
@@ -94,11 +98,21 @@ const Universities = (props) => {
   const [paramRequest, setParamRequest] = useState(initParams);
   const [modalCreateOpen, setModalCreateOpen] = useState(false);
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
-  const [modalResetOpen, setModalResetOpen] = useState(false);
+
+  const getUniversity = useGetData(null, null, true, false, false);
+  const getUniversityDetailById = (value) => {
+    return getUniversity._getData(`${EDU_URL.UPDATE_UNIVERSITY}/${value.id}`);
+  };
+  const update = async (e, value) => {
+    await getUniversityDetailById(value);
+    setModalUpdateOpen(!modalUpdateOpen);
+  };
   const refreshPage = () => {
     setParamRequest({ ...paramRequest, page: 0 });
   };
   const getUniversities = usePostData(null, true, null, false, false);
+
+  // console.log(getUniversities?.data?.data?.docs);
   useEffect(() => {
     const payload = {
       filterQuery: {
@@ -115,9 +129,87 @@ const Universities = (props) => {
   const create = () => {
     setModalCreateOpen(!modalCreateOpen);
   };
+
+  const formInitValue = {
+    name: "",
+    shortName: "",
+  };
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string(),
+    shortName: Yup.string(),
+  });
+  const reset = () => {
+    setParamRequest(initParams);
+  };
   return (
     <BaseAdminContainer>
       <Container className="mt-3" fluid>
+        <Card className="bg-secondary shadow border-0">
+          <Panels>
+            <Formik
+              initialValues={formInitValue}
+              validationSchema={validationSchema}
+              onSubmit={(values) => {
+                setParamRequest({ ...paramRequest, ...values, page: 0 });
+              }}
+            >
+              {({
+                values,
+                touched,
+                errors,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+              }) => (
+                <Form>
+                  <Row>
+                    <FormGroup className="col-sm-3">
+                      <Label for="fullname">Tên trường</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        tag={Field}
+                        placeholder="Nhập tên trường"
+                        value={values.name}
+                        invalid={!!(touched.name && errors.name)}
+                      />
+                    </FormGroup>
+                    <div className="col-sm-1" />
+                    <FormGroup className="col-sm-3">
+                      <Label for="shortName">Tên viết tắt:</Label>
+                      <Input
+                        id="shortName"
+                        name="shortName"
+                        tag={Field}
+                        placeholder="nhập tên viết tắt"
+                        value={values.shortName}
+                        invalid={!!(touched.shortName && errors.shortName)}
+                      />
+                    </FormGroup>
+                    <div className="col-sm-1" />
+                    <FormGroup className="col-sm-4 text-right">
+                      <Label>&nbsp;</Label>
+                      <div>
+                        <Button
+                          color="default"
+                          outline
+                          type="reset"
+                          onClick={reset}
+                        >
+                          Làm mới
+                        </Button>
+                        <Button color="primary" type="submit">
+                          Tìm kiếm
+                        </Button>
+                      </div>
+                    </FormGroup>
+                  </Row>
+                </Form>
+              )}
+            </Formik>
+          </Panels>
+        </Card>
         <Card className="bg-secondary shadow border-0 mt-4">
           <CardHeader className="row panel-card-header-custom">
             <h1 className="font-weight-bold col-sm-3">
@@ -153,7 +245,12 @@ const Universities = (props) => {
           setModalOpen={setModalCreateOpen}
           refreshParent={refreshPage}
         />
-        {/* <MCreateUser isOpen={modalCreateOpen} setModalOpen={setModalCreateOpen} refreshParent={refreshPage} /> */}
+        <MUpdate
+          isOpen={modalUpdateOpen}
+          setModalOpen={setModalUpdateOpen}
+          refreshParent={refreshPage}
+          formValues={getUniversity.data}
+        />
       </Container>
     </BaseAdminContainer>
   );

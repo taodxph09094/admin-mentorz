@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import * as httpServices from "../../services/all/httpServices";
+import * as httpServices from "../../services/httpServices";
 import { createParamsSearch } from "../../helpers";
 
 export const useGetData = (

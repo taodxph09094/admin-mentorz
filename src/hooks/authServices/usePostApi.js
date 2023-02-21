@@ -1,48 +1,48 @@
 import { useCallback, useEffect, useState } from "react";
+import * as httpServices from "../../services/httpServices";
 
-import * as httpServices from "../../services/all/httpServices";
-import { createParamsSearch } from "../../helpers";
-
-export const useGetData = (
+export const usePostData = (
   url,
-  params = null,
   isNeedToken = true,
+  requestData = null,
   isReload,
   isRunFirst = true,
   success = null,
   fail = null
 ) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
     if (isRunFirst) {
-      _getData();
+      _postData();
     }
-  }, [isReload]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReload, isRunFirst]);
 
   const _resetData = useCallback(() => {
     setData(null);
   }, []);
 
-  const _getData = async (customUrl = null, customParam = null) => {
+  const _postData = async (customUrl = null, customData = null) => {
     let endpoint = "";
+
     if (customUrl) {
       endpoint = customUrl;
     } else {
       endpoint = url;
     }
-
     setIsLoading(true);
     try {
-      const response = await httpServices.getData(
+      const response = await httpServices.postData(
         endpoint,
-        createParamsSearch(customParam) ?? createParamsSearch(params)
+        customData ? customData : requestData
       );
       setIsLoading(false);
-      setData(response.data);
+      setData(response);
       if (typeof success === "function") {
+        success(response);
       }
     } catch (err) {
       setError(err);
@@ -53,5 +53,5 @@ export const useGetData = (
     }
   };
 
-  return { isLoading, data, error, _getData, _resetData };
+  return { isLoading, data, error, _postData, _resetData };
 };

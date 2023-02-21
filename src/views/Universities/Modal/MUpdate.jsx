@@ -8,26 +8,23 @@ import {
   ModalBody,
   Row,
 } from "reactstrap";
-import React, { useState } from "react";
-import { alertService } from "../../../services/alertService";
-import { usePostData } from "../../../hooks/services/usePostApi";
+import React from "react";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { alertService } from "../../../services/alertService";
+import { usePutData } from "../../../hooks/services/usePutApi";
 import { EDU_URL } from "../../../constants/api";
-const MCreate = (props) => {
-  const { isOpen, setModalOpen, refreshParent } = props;
+const MUpdate = (props) => {
+  const { formValues, isOpen, setModalOpen, refreshParent } = props;
 
   const formInitValue = {
-    name: "",
-    shortName: "",
-    educationType: "UNIVERSITY",
+    name: formValues?.name,
+    shortName: formValues?.shortName,
   };
-
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Tên trường không được để trống"),
     shortName: Yup.string().required("Tên viết tắt trường không được để trống"),
   });
-
   const putSuccess = (val) => {
     if (val?.status + "" === "201") {
       alertService.success("Thêm mới thành công");
@@ -39,8 +36,7 @@ const MCreate = (props) => {
   const putFail = (val) => {
     alertService.error(val?.data?.message);
   };
-
-  const postCreate = usePostData(
+  const putUpdate = usePutData(
     null,
     true,
     null,
@@ -49,16 +45,16 @@ const MCreate = (props) => {
     putSuccess,
     putFail
   );
-
   const onConfirm = (values) => {
-    void postCreate._postData(`${EDU_URL.CREATE_UNIVERSITY}`, values);
+    putUpdate
+      ._putData(`${EDU_URL.UPDATE_UNIVERSITY}/${formValues?._id}`, values)
+      .then();
   };
-
   return (
     <Modal isOpen={isOpen}>
       <div className="modal-header">
         <h3 className="modal-title font-weight-bold" id="exampleModalLabel">
-          Thêm trường đại học
+          Chỉnh sửa thông tin trường
         </h3>
         <button
           aria-label="Close"
@@ -115,6 +111,7 @@ const MCreate = (props) => {
                   <FormFeedback>{errors.shortName}</FormFeedback>
                 </FormGroup>
               </Row>
+
               <Row>
                 <div className="col-sm-12 text-right">
                   <Button
@@ -123,7 +120,7 @@ const MCreate = (props) => {
                     type="button"
                     onClick={() => setModalOpen(false)}
                   >
-                    Hủy
+                    CANCEL
                   </Button>
                   <Button color="primary" type="submit">
                     OK
@@ -138,4 +135,4 @@ const MCreate = (props) => {
   );
 };
 
-export default MCreate;
+export default MUpdate;

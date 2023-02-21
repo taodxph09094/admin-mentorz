@@ -2,6 +2,7 @@ import withErrorBoundary from "components/HOCs/withErrorBoundary";
 import { RouteBase } from "constants/routeUrl";
 import Dashboard from "views/Dashboard/index";
 import Universities from "../views/Universities";
+import Users from "../views/Users";
 // import Dashboard from 'views/Index';
 // const HomePage = lazy(() => import('views/Home'));
 // const Dashboard = lazy(() => import('views/Dashboard'));
@@ -18,11 +19,21 @@ const securityRoutes = [
     showInMenu: true,
   },
   {
-    path: RouteBase.Users,
+    path: "users",
     name: "menu:sidebar.users",
     icon: "ni ni-tv-2 text-primary",
     layout: "/admin",
     showInMenu: true,
+    children: [
+      {
+        path: RouteBase.Users,
+        name: "Danh sách người dùng",
+        icon: "ni ni-tv-2 text-primary",
+        component: withErrorBoundary(Users),
+        layout: "/admin",
+        showInMenu: true,
+      },
+    ],
   },
   {
     path: RouteBase.HighSchools,
