@@ -2,6 +2,7 @@ import withErrorBoundary from "components/HOCs/withErrorBoundary";
 import { RouteBase } from "constants/routeUrl";
 import Dashboard from "views/Dashboard/index";
 import Universities from "../views/Universities";
+import UniversityDetail from "../views/Universities/components/UniversityDetail";
 import Users from "../views/Users";
 // import Dashboard from 'views/Index';
 // const HomePage = lazy(() => import('views/Home'));
@@ -32,6 +33,11 @@ const securityRoutes = [
         component: withErrorBoundary(Users),
         layout: "/admin",
         showInMenu: true,
+      },
+      {
+        path: RouteBase.UniversityDetail,
+        component: withErrorBoundary(UniversityDetail),
+        layout: "/admin",
       },
     ],
   },

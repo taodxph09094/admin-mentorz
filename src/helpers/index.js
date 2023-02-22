@@ -1,11 +1,11 @@
-import { cloneDeep, isArray, isEqual, isObject } from 'lodash';
+import { cloneDeep, isArray, isEqual, isObject } from "lodash";
 
-export const copyToClipboard = (text = '') => {
-  const el = document.createElement('textarea');
+export const copyToClipboard = (text = "") => {
+  const el = document.createElement("textarea");
   el.value = text;
   document.body.appendChild(el);
   el.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   document.body.removeChild(el);
 };
 
@@ -24,21 +24,30 @@ export const filterQueryInHeaderField = (headerField = [], query = {}) => {
   return { itemInHeaderField, itemNotInHeaderField };
 };
 
-export const findValueInOptions = (valueField = '', options = [], nameFieldOfOptions = 'value') => {
+export const findValueInOptions = (
+  valueField = "",
+  options = [],
+  nameFieldOfOptions = "value"
+) => {
   return (
     options?.find((el) =>
       isEqual(
-        (valueField || '').toString().toLocaleLowerCase(),
-        (el[nameFieldOfOptions] || '').toString().toLocaleLowerCase(),
-      ),
+        (valueField || "").toString().toLocaleLowerCase(),
+        (el[nameFieldOfOptions] || "").toString().toLocaleLowerCase()
+      )
     ) || {
-      label: '',
-      value: '',
+      label: "",
+      value: "",
     }
   );
 };
 
-export const convertToFormSelect = (list, fieldForLabel = undefined, fieldForValue = undefined, noneOption = false) => {
+export const convertToFormSelect = (
+  list,
+  fieldForLabel = undefined,
+  fieldForValue = undefined,
+  noneOption = false
+) => {
   if (!fieldForLabel || !fieldForValue) {
     return [
       ...list.reduce((arr, el) => {
@@ -46,19 +55,26 @@ export const convertToFormSelect = (list, fieldForLabel = undefined, fieldForVal
       }, []),
     ];
   }
-  if (typeof list === 'object' && list) {
+  if (typeof list === "object" && list) {
     const listReturn = [
       ...list.reduce((arr, el) => {
-        return [...arr, { alldata: el, text: el[fieldForLabel] || 'None', id: el[fieldForValue] || '' }];
+        return [
+          ...arr,
+          {
+            alldata: el,
+            text: el[fieldForLabel] || "None",
+            id: el[fieldForValue] || "",
+          },
+        ];
       }, []),
     ];
 
     if (noneOption) {
-      return [{ text: 'None', id: '' }, ...listReturn];
+      return [{ text: "None", id: "" }, ...listReturn];
     }
     return listReturn;
   }
-  return [{ text: 'None', id: '' }, ...list];
+  return [{ text: "None", id: "" }, ...list];
 };
 
 export const correctBodyToRequest = (params = {}, removeNull = false) => {
@@ -67,10 +83,10 @@ export const correctBodyToRequest = (params = {}, removeNull = false) => {
   return Object.keys(values).reduce((obj, key) => {
     obj = {
       ...obj,
-      [key]: (values[key] || '').trim(),
+      [key]: (values[key] || "").trim(),
     };
 
-    if (isObject(values[key]) && values[key].hasOwnProperty('value')) {
+    if (isObject(values[key]) && values[key].hasOwnProperty("value")) {
       obj = {
         ...obj,
         [key]: values?.[key]?.value,
@@ -80,7 +96,7 @@ export const correctBodyToRequest = (params = {}, removeNull = false) => {
     if (isArray(values[key])) {
       obj = {
         ...obj,
-        [key]: values[key]?.map((el) => el['value']),
+        [key]: values[key]?.map((el) => el["value"]),
       };
     }
 
@@ -93,10 +109,10 @@ export const correctBodyToRequest = (params = {}, removeNull = false) => {
 };
 
 export const numberWithCommas = (x) => {
-  const parts = x?.toString()?.split('.');
+  const parts = x?.toString()?.split(".");
   if (parts && parts[0]) {
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
   }
   return 0;
 };
@@ -136,3 +152,12 @@ export const visitNode = (node, hashMap, array) => {
     array.push(node);
   }
 };
+
+export function splitText(string, length) {
+  const count = string.length;
+  if (count > length) {
+    const text = string.substring(0, length + 1).concat("...");
+
+    return text;
+  } else return string;
+}

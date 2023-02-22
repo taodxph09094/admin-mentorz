@@ -182,7 +182,7 @@ const Universities = (props) => {
                         id="shortName"
                         name="shortName"
                         tag={Field}
-                        placeholder="nhập tên viết tắt"
+                        placeholder="Nhập tên viết tắt"
                         value={values.shortName}
                         invalid={!!(touched.shortName && errors.shortName)}
                       />

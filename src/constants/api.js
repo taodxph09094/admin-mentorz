@@ -11,6 +11,8 @@ export const AUTH_URL = {
 
 export const EDU_URL = {
   GET_UNIVERSITIES: "/edu/educations/find",
+  GET_UNIVERSITY_DETAIL: "/edu/educations",
   CREATE_UNIVERSITY: "/edu/educations",
   UPDATE_UNIVERSITY: "/edu/educations",
+  CREATE_MAJOR: "/edu/majors",
 };
