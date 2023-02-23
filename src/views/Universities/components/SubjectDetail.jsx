@@ -26,8 +26,7 @@ import { usePostData } from "../../../hooks/services/usePostApi";
 import { alertService } from "../../../services/alertService";
 import { useGetData } from "../../../hooks/services/useGetApi";
 import { EDU_URL } from "../../../constants/api";
-import MCreateMajor from "./Modal/MCreateMajor";
-const UniversityDetail = (props) => {
+const SubjectDetail = (props) => {
   const history = useHistory();
   const initParams = {
     page: 0,
@@ -39,23 +38,40 @@ const UniversityDetail = (props) => {
 
   const styleBtn = { color: "#f80031", cursor: "pointer", margin: 5 };
   const idPopover = "tooltip876279349";
-  const id = new URLSearchParams(props.location.search).get("id");
   const [modalOpen, setModalOpen] = useState(false);
+  const id = new URLSearchParams(props.location.search).get("id");
   const [paramRequest, setParamRequest] = useState(initParams);
   const [updated, setUpdated] = useState(false);
-  const getUniversityDetails =
-    useGetData(`${EDU_URL.GET_UNIVERSITY_DETAIL}/${id}`) || null;
+
+  const getSubjectDetails =
+    useGetData(`${EDU_URL.GET_SUBJECT_DETAIL}/${id}`) || null;
   useEffect(() => {
     let isCurrent = true;
     if (!!isCurrent) {
-      void getUniversityDetails._getData(null);
+      void getSubjectDetails._getData(null);
     }
     return () => {
       isCurrent = false;
     };
   }, [updated, paramRequest]);
-  //modal update University
-  function openModalMerchant() {
+
+  const getTestBySubject = usePostData(null, true, null, false, false);
+  const getCourseBySubject = usePostData(null, true, null, false, false);
+  useEffect(() => {
+    const payload = {
+      filterQuery: {
+        subjectId: getSubjectDetails?.data?._id,
+      },
+      options: {
+        sort: { downloaded: -1, viewed: 1 },
+        limit: 10,
+        page: 1,
+      },
+    };
+    getTestBySubject._postData(EDU_URL.GET_TEST_BY_SUBJECT, payload).then();
+    getCourseBySubject._postData(EDU_URL.GET_COURSE_BY_SUBJECT, payload).then();
+  }, [paramRequest]);
+  function openModal() {
     setModalOpen(!modalOpen);
   }
   function refreshPage() {
@@ -64,7 +80,6 @@ const UniversityDetail = (props) => {
   const closePopover = () => {
     document.getElementById(idPopover).click();
   };
-  //tabs
   const [activeTab, setActiveTab] = useState("1");
   const [activeTabProduct, setActiveTabProduct] = useState("1");
   const toggle = (tab) => {
@@ -77,20 +92,22 @@ const UniversityDetail = (props) => {
       setActiveTabProduct(tab);
     }
   };
-  //end tabs
-
-  //table
-
-  //major table
-  const majorColumns = [
+  const testColumns = [
     {
       name: "ID",
       selector: (row) => row._id,
       sortable: true,
     },
     {
-      name: "Tên chuyên ngành",
-      selector: (row) => row.name,
+      name: "Bộ bài thi",
+      //   selector: (row) => row.name,
+      selector: (row) => {
+        return (
+          <Link to={`/admin${RouteBase.TestDetails}?id=${row?._id}`}>
+            {row.name}
+          </Link>
+        );
+      },
       sortable: true,
     },
     {
@@ -110,16 +127,14 @@ const UniversityDetail = (props) => {
       name: "Hành động",
     },
   ];
-
-  //subjectTable
-  const subjectColumns = [
+  const courseColumns = [
     {
       name: "ID",
       selector: (row) => row._id,
       sortable: true,
     },
     {
-      name: "Tên môn học",
+      name: "Tên khóa học",
       // selector: (row) => row.name,
       selector: (row) => {
         return (
@@ -131,8 +146,9 @@ const UniversityDetail = (props) => {
       sortable: true,
     },
     {
-      name: "Nội dung",
-      selector: (row) => row.description,
+      name: "Đối tượng tài khoản",
+      // selector: (row) => row.name,
+      selector: (row) => row.plan,
       sortable: true,
     },
     {
@@ -152,82 +168,25 @@ const UniversityDetail = (props) => {
       name: "Hành động",
     },
   ];
-
-  //student table
-  const studentColumns = [
-    {
-      name: "ID",
-      selector: (row) => row._id,
-      sortable: true,
-    },
-    {
-      name: "Tên sinh viên",
-      selector: (row) => row.fullName,
-      sortable: true,
-    },
-    {
-      cell: (row) => {
-        return (
-          <>
-            <AiOutlineEdit
-              style={styleBtn}
-              // onClick={(event) => update(event, row)}
-            />
-            <AiOutlineDelete style={styleBtn} />
-          </>
-        );
-      },
-      ignoreRowClick: true,
-      allowOverflow: true,
-      name: "Hành động",
-    },
-  ];
-  //end table
-
-  //modal
   function refreshTable() {
     setParamRequest({ ...paramRequest, page: 0 });
-  }
-  const [modalOpenCreateMajor, setModalOpenCreateMajor] = useState(false);
-  function openModalCreateMajor() {
-    setModalOpenCreateMajor(!modalOpenCreateMajor);
   }
   return (
     <BaseAdminContainer>
       <Container className="mt-3" fluid>
-        {/* university details */}
         <Card className="bg-secondary shadow border-0 mt-5">
           <Panels>
             <div className="d-flex">
-              <h1>{getUniversityDetails?.data?.name || ""}</h1>
-              <Button
-                className="ml-auto"
-                color="primary"
-                onClick={openModalMerchant}
-              >
-                Chỉnh sửa
-              </Button>
-              <Button
-                className="ml-1"
-                color={
-                  getUniversityDetails?.data?.status ? "danger" : "success"
-                }
-                // onClick={() =>
-                //   changeStatusOfMerchant(!!getMerchantDetails?.data?.enabled)
-                // }
-              >
-                {getUniversityDetails?.data?.status ? "Block" : "Active"}
-              </Button>
+              <h1>{getSubjectDetails?.data?.name || ""}</h1>
             </div>
             <div className="row form-group">
               <div className="col-sm-6">
-                <span className="font-weight-bold">Địa chỉ: </span>
-                {/* {getUniversityDetails?.data?.address || ""} */}
-                Hà Nội
+                <span className="font-weight-bold">Tên viết tắt: </span>
+                {getSubjectDetails?.data?.description || ""}
               </div>
               <div className="col-sm-6">
-                <span className="font-weight-bold">Tên viết tắt: </span>
-                {getUniversityDetails?.data?.shortName || ""}
+                <span className="font-weight-bold">Số bài test: </span>
+                {getSubjectDetails?.data?.countTests}
               </div>
             </div>
             <div className="row form-group">
@@ -235,24 +194,18 @@ const UniversityDetail = (props) => {
                 <span className="font-weight-bold">Trạng thái: </span>
 
                 <Badge
-                  color={
-                    getUniversityDetails?.data?.status ? "success" : "danger"
-                  }
+                  color={getSubjectDetails?.data?.status ? "success" : "danger"}
                 >
-                  {getUniversityDetails?.data?.status ? "Active" : "Block"}
+                  {getSubjectDetails?.data?.status ? "Active" : "Block"}
                 </Badge>
+              </div>
+              <div className="col-sm-6">
+                <span className="font-weight-bold">Số khóa học: </span>
+                {getSubjectDetails?.data?.countCourses}
               </div>
             </div>
           </Panels>
         </Card>
-        {/*end university details */}
-        {/* <MUpdateMerchant
-          isUpdate={true}
-          formValue={getMerchantDetails?.data}
-          isOpen={modalOpen}
-          setModalOpen={setModalOpen}
-          refreshParent={refreshPage}
-        /> */}
         <br />
         <Nav tabs>
           <NavItem>
@@ -261,7 +214,7 @@ const UniversityDetail = (props) => {
               onClick={() => toggle("1")}
               style={{ cursor: "pointer" }}
             >
-              Chuyên ngành
+              Test
             </NavLink>
           </NavItem>
           <NavItem>
@@ -270,43 +223,26 @@ const UniversityDetail = (props) => {
               onClick={() => toggle("2")}
               style={{ cursor: "pointer" }}
             >
-              Môn học
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: activeTab === "3" })}
-              onClick={() => toggle("3")}
-              style={{ cursor: "pointer" }}
-            >
-              Sinh viên
+              Khóa học
             </NavLink>
           </NavItem>
         </Nav>
         {/* tabs details */}
         <TabContent className="tabs-table" activeTab={activeTab}>
-          {/* tabs Majors list */}
           <TabPane tabId="1">
             <Card className="bg-secondary shadow border-0 mt-4">
               <div className="d-flex">
-                <h3>Danh sách chuyên ngành</h3>
-                <Button
-                  className="ml-auto"
-                  color="primary"
-                  onClick={openModalCreateMajor}
-                >
-                  Thêm chuyên ngành
-                </Button>
+                <h3>Danh sách bài test</h3>
               </div>
               <div className="form-group">
                 <CustomDataTable
-                  data={getUniversityDetails?.data?.majors}
-                  columns={majorColumns}
-                  progressPending={getUniversityDetails?.isLoading}
+                  data={getTestBySubject?.data?.data?.docs}
+                  columns={testColumns}
+                  progressPending={getTestBySubject?.isLoading}
                   pagination
                   paginationServer
                   paginationTotalRows={
-                    getUniversityDetails?.data?.pagination?.totalRecords ?? 0
+                    getTestBySubject?.data?.pagination?.totalRecords ?? 0
                   }
                   onChangeRowsPerPage={(val) => {
                     setParamRequest({ ...paramRequest, size: val, page: 0 });
@@ -317,37 +253,21 @@ const UniversityDetail = (props) => {
                 />
               </div>
             </Card>
-            <MCreateMajor
-              isUpdate={false}
-              isOpen={modalOpenCreateMajor}
-              setModalOpen={setModalOpenCreateMajor}
-              refreshParent={refreshTable}
-              universityId={id}
-            />
           </TabPane>
-          {/* tabs subject list */}
           <TabPane tabId="2">
             <Card className="bg-secondary shadow border-0 mt-4">
               <div className="d-flex">
-                <h3>Danh sách môn học</h3>
-                <Button
-                  className="ml-auto"
-                  color="primary"
-                  //  onClick={openModalCreateStaff}
-                >
-                  Thêm môn học
-                </Button>
+                <h3>Danh sách khóa học</h3>
               </div>
               <div className="form-group">
                 <CustomDataTable
-                  data={getUniversityDetails?.data?.subjects}
-                  columns={subjectColumns}
-                  progressPending={getUniversityDetails?.isLoading}
+                  data={getCourseBySubject?.data?.data?.docs}
+                  columns={courseColumns}
+                  progressPending={getCourseBySubject?.isLoading}
                   pagination
                   paginationServer
                   paginationTotalRows={
-                    getUniversityDetails?.data?.subjects?.pagination
-                      ?.totalRecords ?? 0
+                    getCourseBySubject?.data?.pagination?.totalRecords ?? 0
                   }
                   onChangeRowsPerPage={(val) => {
                     setParamRequest({ ...paramRequest, size: val, page: 0 });
@@ -358,42 +278,6 @@ const UniversityDetail = (props) => {
                 />
               </div>
             </Card>
-            {/* <CreateSubject
-              isOpen={modalOpenCreateSubject}
-              setModalOpen={setModalOpenCreateSubject}
-              refreshParent={refreshTable}
-            /> */}
-          </TabPane>
-          <TabPane tabId="3">
-            <Card className="bg-secondary shadow border-0 mt-4">
-              <div className="d-flex">
-                <h3>Danh sách sinh viên</h3>
-              </div>
-              <div className="form-group">
-                <CustomDataTable
-                  data={getUniversityDetails?.data?.students}
-                  columns={studentColumns}
-                  progressPending={getUniversityDetails?.isLoading}
-                  pagination
-                  paginationServer
-                  paginationTotalRows={
-                    getUniversityDetails?.data?.students?.pagination
-                      ?.totalRecords ?? 0
-                  }
-                  onChangeRowsPerPage={(val) => {
-                    setParamRequest({ ...paramRequest, size: val, page: 0 });
-                  }}
-                  onChangePage={(val) => {
-                    setParamRequest({ ...paramRequest, page: val - 1 });
-                  }}
-                />
-              </div>
-            </Card>
-            {/* <CreateSubject
-              isOpen={modalOpenCreateSubject}
-              setModalOpen={setModalOpenCreateSubject}
-              refreshParent={refreshTable}
-            /> */}
           </TabPane>
         </TabContent>
 
@@ -408,4 +292,4 @@ const UniversityDetail = (props) => {
   );
 };
 
-export default UniversityDetail;
+export default SubjectDetail;

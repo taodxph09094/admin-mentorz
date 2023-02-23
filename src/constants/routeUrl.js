@@ -7,4 +7,10 @@ export const RouteBase = {
   ///Universities
   Universities: "/universities",
   UniversityDetail: "/university-detail",
+
+  //subject
+  SubjectDetail: "/subject",
+
+  //exam
+  TestDetails: "/testDetails",
 };

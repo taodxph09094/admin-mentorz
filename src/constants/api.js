@@ -10,9 +10,20 @@ export const AUTH_URL = {
 };
 
 export const EDU_URL = {
+  //University
   GET_UNIVERSITIES: "/edu/educations/find",
   GET_UNIVERSITY_DETAIL: "/edu/educations",
   CREATE_UNIVERSITY: "/edu/educations",
   UPDATE_UNIVERSITY: "/edu/educations",
   CREATE_MAJOR: "/edu/majors",
+
+  //subject
+  GET_SUBJECT_DETAIL: "/edu/subjects",
+
+  //test
+  GET_TEST_BY_SUBJECT: "/exam/tests/find",
+  GET_TEST_DETAIL: "/exam/tests",
+  CREATE_TEST: "/exam/questions",
+  //courses
+  GET_COURSE_BY_SUBJECT: "edu/courses/find",
 };

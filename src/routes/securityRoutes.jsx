@@ -1,7 +1,9 @@
 import withErrorBoundary from "components/HOCs/withErrorBoundary";
 import { RouteBase } from "constants/routeUrl";
 import Dashboard from "views/Dashboard/index";
+import TestDetails from "../views/Example/components/TestDetails";
 import Universities from "../views/Universities";
+import SubjectDetail from "../views/Universities/components/SubjectDetail";
 import UniversityDetail from "../views/Universities/components/UniversityDetail";
 import Users from "../views/Users";
 // import Dashboard from 'views/Index';
@@ -37,6 +39,16 @@ const securityRoutes = [
       {
         path: RouteBase.UniversityDetail,
         component: withErrorBoundary(UniversityDetail),
+        layout: "/admin",
+      },
+      {
+        path: RouteBase.SubjectDetail,
+        component: withErrorBoundary(SubjectDetail),
+        layout: "/admin",
+      },
+      {
+        path: RouteBase.TestDetails,
+        component: withErrorBoundary(TestDetails),
         layout: "/admin",
       },
     ],
