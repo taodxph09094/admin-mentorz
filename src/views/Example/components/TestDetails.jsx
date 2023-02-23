@@ -35,6 +35,9 @@ const TestDetails = (props) => {
     fontSize: 18,
     margin: 5,
   };
+  const styleCk = {
+    margin: 5,
+  };
   let index = 0;
   const columns = [
     {
@@ -215,6 +218,7 @@ const TestDetails = (props) => {
           isOpen={modalCreateOpen}
           setModalOpen={setModalCreateOpen}
           refreshParent={refreshPage}
+          idTest={getTest?.data?._id}
         />
         {/* <MUpdate
           isOpen={modalUpdateOpen}
