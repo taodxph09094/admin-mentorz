@@ -17,7 +17,7 @@ import { CodeConstants } from "../../../../constants/ApiCode";
 import { EDU_URL } from "../../../../constants/api";
 const MCreateMajor = (props) => {
   const { isUpdate, isOpen, setModalOpen, refreshParent, universityId } = props;
-  console.log(universityId);
+  // console.log(universityId);
   const formInitValue = {
     name: "",
     educationType: "UNIVERSITY",
@@ -26,6 +26,7 @@ const MCreateMajor = (props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Tên chuyên ngành không được để trống"),
   });
+
   const putSuccess = (val) => {
     if (val?.status + "" === "200") {
       alertService.success("Thêm mới thành công");

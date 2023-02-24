@@ -8,21 +8,28 @@ import {
   ModalBody,
   Row,
 } from "reactstrap";
-import React from "react";
+import React, { useState } from "react";
+import { alertService } from "../../../services/alertService";
+import { usePostData } from "../../../hooks/services/usePostApi";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { alertService } from "../../../services/alertService";
-import { usePutData } from "../../../hooks/services/usePutApi";
 import { EDU_URL } from "../../../constants/api";
-const MUpdate = (props) => {
-  const { formValues, isOpen, setModalOpen, refreshParent } = props;
+import SelectboxField from "../../../components/CustomField/SelectboxField";
+const MCreate = (props) => {
+  const { isOpen, setModalOpen, refreshParent } = props;
   const formInitValue = {
-    name: formValues?.name,
-    shortName: formValues?.shortName,
+    name: "",
+    educationType: "",
   };
+  const types = [
+    { id: "HIGH SCHOOL", text: "HIGH SCHOOL" },
+    { id: "UNIVERSITY", text: "UNIVERSITY" },
+  ];
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Tên trường không được để trống"),
-    shortName: Yup.string().required("Tên viết tắt trường không được để trống"),
+    name: Yup.string().required("Không được để trống"),
+    educationType: Yup.string().required(
+      "Bạn cần chọn khối trường để tiếp tục"
+    ),
   });
   const putSuccess = (val) => {
     if (val?.status + "" === "201") {
@@ -35,7 +42,7 @@ const MUpdate = (props) => {
   const putFail = (val) => {
     alertService.error(val?.data?.message);
   };
-  const putUpdate = usePutData(
+  const postCreate = usePostData(
     null,
     true,
     null,
@@ -45,15 +52,13 @@ const MUpdate = (props) => {
     putFail
   );
   const onConfirm = (values) => {
-    putUpdate
-      ._putData(`${EDU_URL.UPDATE_UNIVERSITY}/${formValues?._id}`, values)
-      .then();
+    void postCreate._postData(`${EDU_URL.CREATE_SUBJECT}`, values);
   };
   return (
     <Modal isOpen={isOpen}>
       <div className="modal-header">
         <h3 className="modal-title font-weight-bold" id="exampleModalLabel">
-          Chỉnh sửa thông tin trường
+          Thêm môn học
         </h3>
         <button
           aria-label="Close"
@@ -82,13 +87,13 @@ const MUpdate = (props) => {
               <Row>
                 <FormGroup className="col-sm-12">
                   <Label>
-                    Tên trường&nbsp;
+                    Tên môn học&nbsp;
                     <span className="text-danger">*</span>
                   </Label>
                   <Input
                     name="name"
                     tag={Field}
-                    placeholder="Nhập tên trường đại học"
+                    placeholder="Nhập tên môn học"
                     value={values.name}
                     invalid={!!(touched.name && errors.name)}
                   />
@@ -96,21 +101,17 @@ const MUpdate = (props) => {
                 </FormGroup>
                 <FormGroup className="col-sm-12">
                   <Label>
-                    Tên viết tắt&nbsp;
+                    Chọn khối trường&nbsp;
                     <span className="text-danger">*</span>
                   </Label>
-                  <Input
-                    name="shortName"
-                    type="text"
-                    tag={Field}
-                    placeholder="Nhập tên viết tắt"
-                    value={values.shortName}
-                    invalid={!!(touched.shortName && errors.shortName)}
+                  <Field
+                    name="educationType"
+                    placeholder="Chọn khối"
+                    data={types}
+                    component={SelectboxField}
                   />
-                  <FormFeedback>{errors.shortName}</FormFeedback>
                 </FormGroup>
               </Row>
-
               <Row>
                 <div className="col-sm-12 text-right">
                   <Button
@@ -119,7 +120,7 @@ const MUpdate = (props) => {
                     type="button"
                     onClick={() => setModalOpen(false)}
                   >
-                    CANCEL
+                    Hủy
                   </Button>
                   <Button color="primary" type="submit">
                     OK
@@ -134,4 +135,4 @@ const MUpdate = (props) => {
   );
 };
 
-export default MUpdate;
+export default MCreate;

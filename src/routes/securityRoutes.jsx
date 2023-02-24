@@ -1,7 +1,10 @@
 import withErrorBoundary from "components/HOCs/withErrorBoundary";
 import { RouteBase } from "constants/routeUrl";
 import Dashboard from "views/Dashboard/index";
+import Courses from "../views/Courses";
 import TestDetails from "../views/Example/components/TestDetails";
+import Majors from "../views/Majors";
+import Subjects from "../views/Subjects";
 import Universities from "../views/Universities";
 import SubjectDetail from "../views/Universities/components/SubjectDetail";
 import UniversityDetail from "../views/Universities/components/UniversityDetail";
@@ -76,6 +79,30 @@ const securityRoutes = [
         showInMenu: true,
       },
     ],
+  },
+  {
+    path: RouteBase.Majors,
+    name: "Chuyên ngành",
+    icon: "ni ni-tv-2 text-primary",
+    component: withErrorBoundary(Majors),
+    layout: "/admin",
+    showInMenu: true,
+  },
+  {
+    path: RouteBase.Subjects,
+    name: "Môn học",
+    icon: "ni ni-tv-2 text-primary",
+    component: withErrorBoundary(Subjects),
+    layout: "/admin",
+    showInMenu: true,
+  },
+  {
+    path: RouteBase.Courses,
+    name: "Khóa học",
+    icon: "ni ni-tv-2 text-primary",
+    component: withErrorBoundary(Courses),
+    layout: "/admin",
+    showInMenu: true,
   },
 ];
 

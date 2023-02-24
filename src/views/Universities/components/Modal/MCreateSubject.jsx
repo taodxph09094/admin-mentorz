@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Button,
   FormFeedback,
@@ -8,24 +9,24 @@ import {
   ModalBody,
   Row,
 } from "reactstrap";
-import React from "react";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { alertService } from "../../../services/alertService";
-import { usePutData } from "../../../hooks/services/usePutApi";
-import { EDU_URL } from "../../../constants/api";
-const MUpdate = (props) => {
-  const { formValues, isOpen, setModalOpen, refreshParent } = props;
+import { usePostData } from "hooks/services/usePostApi";
+import { alertService } from "../../../../services/alertService";
+import { CodeConstants } from "../../../../constants/ApiCode";
+import { EDU_URL } from "../../../../constants/api";
+const MCreateSubject = (props) => {
+  const { isUpdate, isOpen, setModalOpen, refreshParent, universityId } = props;
   const formInitValue = {
-    name: formValues?.name,
-    shortName: formValues?.shortName,
+    name: "",
+    educationType: "UNIVERSITY",
+    educationId: universityId,
   };
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Tên trường không được để trống"),
-    shortName: Yup.string().required("Tên viết tắt trường không được để trống"),
+    name: Yup.string().required("Tên chuyên ngành không được để trống"),
   });
   const putSuccess = (val) => {
-    if (val?.status + "" === "201") {
+    if (val?.status + "" === "200") {
       alertService.success("Thêm mới thành công");
     }
     setModalOpen(false);
@@ -35,7 +36,7 @@ const MUpdate = (props) => {
   const putFail = (val) => {
     alertService.error(val?.data?.message);
   };
-  const putUpdate = usePutData(
+  const postCreate = usePostData(
     null,
     true,
     null,
@@ -44,16 +45,16 @@ const MUpdate = (props) => {
     putSuccess,
     putFail
   );
+
   const onConfirm = (values) => {
-    putUpdate
-      ._putData(`${EDU_URL.UPDATE_UNIVERSITY}/${formValues?._id}`, values)
-      .then();
+    void postCreate._postData(`${EDU_URL.CREATE_MAJOR}`, values);
   };
+
   return (
     <Modal isOpen={isOpen}>
       <div className="modal-header">
         <h3 className="modal-title font-weight-bold" id="exampleModalLabel">
-          Chỉnh sửa thông tin trường
+          Danh sách môn học
         </h3>
         <button
           aria-label="Close"
@@ -82,7 +83,7 @@ const MUpdate = (props) => {
               <Row>
                 <FormGroup className="col-sm-12">
                   <Label>
-                    Tên trường&nbsp;
+                    Danh sách&nbsp;
                     <span className="text-danger">*</span>
                   </Label>
                   <Input
@@ -94,23 +95,7 @@ const MUpdate = (props) => {
                   />
                   <FormFeedback>{errors.name}</FormFeedback>
                 </FormGroup>
-                <FormGroup className="col-sm-12">
-                  <Label>
-                    Tên viết tắt&nbsp;
-                    <span className="text-danger">*</span>
-                  </Label>
-                  <Input
-                    name="shortName"
-                    type="text"
-                    tag={Field}
-                    placeholder="Nhập tên viết tắt"
-                    value={values.shortName}
-                    invalid={!!(touched.shortName && errors.shortName)}
-                  />
-                  <FormFeedback>{errors.shortName}</FormFeedback>
-                </FormGroup>
               </Row>
-
               <Row>
                 <div className="col-sm-12 text-right">
                   <Button
@@ -119,7 +104,7 @@ const MUpdate = (props) => {
                     type="button"
                     onClick={() => setModalOpen(false)}
                   >
-                    CANCEL
+                    Hủy
                   </Button>
                   <Button color="primary" type="submit">
                     OK
@@ -134,4 +119,4 @@ const MUpdate = (props) => {
   );
 };
 
-export default MUpdate;
+export default MCreateSubject;

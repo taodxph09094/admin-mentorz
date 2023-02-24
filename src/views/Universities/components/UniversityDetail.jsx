@@ -27,6 +27,8 @@ import { alertService } from "../../../services/alertService";
 import { useGetData } from "../../../hooks/services/useGetApi";
 import { EDU_URL } from "../../../constants/api";
 import MCreateMajor from "./Modal/MCreateMajor";
+import MCreateSubject from "./Modal/MCreateSubject";
+import MAddMajor from "./Modal/MAddMajor";
 const UniversityDetail = (props) => {
   const history = useHistory();
   const initParams = {
@@ -192,6 +194,14 @@ const UniversityDetail = (props) => {
   function openModalCreateMajor() {
     setModalOpenCreateMajor(!modalOpenCreateMajor);
   }
+  const [modalOpenAddMajor, setModalOpenAddMajor] = useState(false);
+  function openModalAddMajor() {
+    setModalOpenAddMajor(!modalOpenAddMajor);
+  }
+  const [modalOpenCreateSubject, setModalOpenCreateSubject] = useState(false);
+  function openModalCreateSubject() {
+    setModalOpenCreateSubject(!modalOpenCreateSubject);
+  }
   return (
     <BaseAdminContainer>
       <Container className="mt-3" fluid>
@@ -293,6 +303,13 @@ const UniversityDetail = (props) => {
                 <Button
                   className="ml-auto"
                   color="primary"
+                  onClick={openModalAddMajor}
+                >
+                  ADD
+                </Button>
+                <Button
+                  className="ml-auto"
+                  color="primary"
                   onClick={openModalCreateMajor}
                 >
                   Thêm chuyên ngành
@@ -324,6 +341,13 @@ const UniversityDetail = (props) => {
               refreshParent={refreshTable}
               universityId={id}
             />
+            <MAddMajor
+              isUpdate={false}
+              isOpen={modalOpenAddMajor}
+              setModalOpen={setModalOpenAddMajor}
+              refreshParent={refreshTable}
+              universityId={id}
+            />
           </TabPane>
           {/* tabs subject list */}
           <TabPane tabId="2">
@@ -333,7 +357,7 @@ const UniversityDetail = (props) => {
                 <Button
                   className="ml-auto"
                   color="primary"
-                  //  onClick={openModalCreateStaff}
+                  onClick={openModalCreateSubject}
                 >
                   Thêm môn học
                 </Button>
@@ -358,11 +382,11 @@ const UniversityDetail = (props) => {
                 />
               </div>
             </Card>
-            {/* <CreateSubject
+            <MCreateSubject
               isOpen={modalOpenCreateSubject}
               setModalOpen={setModalOpenCreateSubject}
               refreshParent={refreshTable}
-            /> */}
+            />
           </TabPane>
           <TabPane tabId="3">
             <Card className="bg-secondary shadow border-0 mt-4">
@@ -389,11 +413,6 @@ const UniversityDetail = (props) => {
                 />
               </div>
             </Card>
-            {/* <CreateSubject
-              isOpen={modalOpenCreateSubject}
-              setModalOpen={setModalOpenCreateSubject}
-              refreshParent={refreshTable}
-            /> */}
           </TabPane>
         </TabContent>
 

@@ -15,10 +15,15 @@ export const EDU_URL = {
   GET_UNIVERSITY_DETAIL: "/edu/educations",
   CREATE_UNIVERSITY: "/edu/educations",
   UPDATE_UNIVERSITY: "/edu/educations",
-  CREATE_MAJOR: "/edu/majors",
 
+  //major
+  GET_MAJORS: "/edu/majors/find",
+  CREATE_MAJOR: "/edu/majors",
+  GET_MAJOR_DETAIL: "/edu/majors",
   //subject
   GET_SUBJECT_DETAIL: "/edu/subjects",
+  GET_SUBJECTS: "/edu/subjects/find",
+  CREATE_SUBJECT: "/edu/subjects",
 
   //test
   GET_TEST_BY_SUBJECT: "/exam/tests/find",
@@ -26,4 +31,5 @@ export const EDU_URL = {
   CREATE_TEST: "/exam/questions",
   //courses
   GET_COURSE_BY_SUBJECT: "edu/courses/find",
+  GET_COURSES: "/edu/courses/find",
 };

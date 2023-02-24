@@ -1,22 +1,18 @@
 import {
   Button,
-  FormFeedback,
   FormGroup,
   Input,
   Label,
   Modal,
   ModalBody,
   Row,
-  ButtonGroup,
 } from "reactstrap";
-import Select2 from "react-select2-wrapper";
 import React, { useState } from "react";
 import { alertService } from "../../../services/alertService";
 import { usePostData } from "../../../hooks/services/usePostApi";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { EDU_URL } from "../../../constants/api";
-import SelectboxField from "../../../components/CustomField/SelectboxField";
 
 const MCreateTest = (props) => {
   const { isOpen, setModalOpen, refreshParent, idTest } = props;
@@ -48,20 +44,20 @@ const MCreateTest = (props) => {
 
   //formInitValue True/false
   const formInitValueWithTrueOrFalse = {
-    media: "",
+    attachment: "",
     content: "",
     point: 10,
   };
   const validationSchemaTrueOrFalse = Yup.object().shape({
-    media: Yup.string().required("Không được để trống"),
+    attachment: Yup.string().required("Không được để trống"),
     content: Yup.string().required("Không được để trống"),
-    media: Yup.string().required("Không được để trống"),
+    attachment: Yup.string().required("Không được để trống"),
     point: Yup.string().required("Không được để trống"),
   });
 
   //formInitValue Multiple
   const formInitValueWithMultiple = {
-    media: "",
+    attachment: "",
     content: "",
     answer1: "",
     answer2: "",
@@ -72,7 +68,7 @@ const MCreateTest = (props) => {
     point: 10,
   };
   const validationSchemaWithMultiple = Yup.object().shape({
-    media: Yup.string().required("Không được để trống"),
+    attachment: Yup.string().required("Không được để trống"),
     content: Yup.string().required("Không được để trống"),
     answer1: Yup.string().required("Không được để trống"),
     answer2: Yup.string().required("Không được để trống"),
@@ -139,7 +135,6 @@ const MCreateTest = (props) => {
           },
         ],
         type: typeTest,
-        //   point: values?.point,
         point: values?.point,
       };
       void postCreate._postData(`${EDU_URL.CREATE_TEST}`, body);
@@ -149,7 +144,7 @@ const MCreateTest = (props) => {
       const body = {
         testId: idTest,
         question: {
-          media: values?.media,
+          attachment: values?.attachment,
           content: values?.content,
         },
         choices: [
@@ -173,7 +168,7 @@ const MCreateTest = (props) => {
       const body = {
         testId: idTest,
         question: {
-          media: values?.media,
+          attachment: values?.attachment,
           content: values?.content,
         },
         choices: [
@@ -426,15 +421,16 @@ const MCreateTest = (props) => {
                   <Row>
                     <FormGroup className="col-sm-12">
                       <Label>
-                        Thêm media&nbsp;
+                        Thêm video hoặc hình ảnh&nbsp;
                         <span className="text-danger">*</span>
                       </Label>
                       <Input
-                        name="media"
+                        name="attachment"
                         tag={Field}
                         placeholder="Thêm ảnh hoặc video"
-                        value={values.media}
-                        invalid={!!(touched.media && errors.media)}
+                        value={values.attachment}
+                        type="file"
+                        invalid={!!(touched.attachment && errors.attachment)}
                       />
                     </FormGroup>
                     <FormGroup className="col-sm-12">
@@ -537,11 +533,12 @@ const MCreateTest = (props) => {
                         <span className="text-danger">*</span>
                       </Label>
                       <Input
-                        name="media"
+                        name="attachment"
                         tag={Field}
                         placeholder="Nhập hình ảnh hoặc video"
-                        value={values.media}
-                        invalid={!!(touched.media && errors.media)}
+                        type="file"
+                        value={values.attachment}
+                        invalid={!!(touched.attachment && errors.attachment)}
                       />
                     </FormGroup>
                     <FormGroup className="col-sm-12">

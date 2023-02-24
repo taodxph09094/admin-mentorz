@@ -10,7 +10,8 @@ function* login({ payload }) {
     const responseData = yield call(authServices.postLogin, account, password);
     if (responseData?.status === CodeConstants.successLogin) {
       sessionStorage.setItem("userData", JSON.stringify(responseData?.data));
-      if (responseData?.data.fullName === "Admin") {
+
+      if (responseData?.data.role?.some((value) => value === "ADMIN")) {
         authServices.saveUserLocalStorage({
           account,
           isAdmin: true,

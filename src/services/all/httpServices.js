@@ -56,3 +56,6 @@ export const putData = (url, data) => {
 export const deleteData = (url, data) => {
   return instance.delete(url, data);
 };
+export const patchData = (url, data) => {
+  return instance.patch(url, data);
+};
