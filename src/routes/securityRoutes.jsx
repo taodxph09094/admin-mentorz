@@ -1,6 +1,8 @@
 import withErrorBoundary from "components/HOCs/withErrorBoundary";
 import { RouteBase } from "constants/routeUrl";
 import Dashboard from "views/Dashboard/index";
+import HighSchools from "views/HighSchools";
+import SigleSchool from "views/HighSchools/SigleSchool";
 import Courses from "../views/Courses";
 import TestDetails from "../views/Example/components/TestDetails";
 import Majors from "../views/Majors";
@@ -62,6 +64,16 @@ const securityRoutes = [
     icon: "ni ni-tv-2 text-primary",
     layout: "/admin",
     showInMenu: true,
+    children: [
+      {
+        path: RouteBase.HighSchools,
+        name: "Danh sách các trường",
+        icon: "ni ni-tv-2 text-primary",
+        component: withErrorBoundary(HighSchools),
+        layout: "/admin",
+        showInMenu: true,
+      },
+    ],
   },
   {
     path: "university",
@@ -103,6 +115,13 @@ const securityRoutes = [
     component: withErrorBoundary(Courses),
     layout: "/admin",
     showInMenu: true,
+  },
+
+  {
+    path: RouteBase.HighSchoolsDetail,
+    name: "sigleSchool",
+    component: withErrorBoundary(SigleSchool),
+    layout: "/admin",
   },
 ];
 

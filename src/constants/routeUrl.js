@@ -1,8 +1,12 @@
 export const RouteBase = {
   Dashboard: "/dashboard",
   Users: "/users",
-  HighSchools: "/high-schools",
+
   Login: "/auth/login",
+
+  // High school
+  HighSchools: "/high-schools",
+  HighSchoolsDetail: "/high-schools-detail",
 
   ///Universities
   Universities: "/universities",
