@@ -72,7 +72,7 @@ export default function HighSchools() {
       selector: (row) => row?.subjects,
       sortable: true,
       cell: (row) => {
-        return row?.subjects?.length;
+        return row?.countSubjects;
       },
     },
 
@@ -81,7 +81,7 @@ export default function HighSchools() {
       selector: (row) => row?.students,
       sortable: true,
       cell: (row) => {
-        return row?.students?.length;
+        return row?.countStudents;
       },
     },
     {

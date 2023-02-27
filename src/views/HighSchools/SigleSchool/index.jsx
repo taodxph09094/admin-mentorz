@@ -47,19 +47,19 @@ export default function SigleSchool(props) {
     },
     {
       name: "Số lượng môn học",
-      selector: (row) => row?.subjects,
+      selector: (row) => row?.countSubjects,
       sortable: true,
       cell: (row) => {
-        return row?.subjects;
+        return row?.countSubjects;
       },
     },
 
     {
       name: "Số lượng Học sinh",
-      selector: (row) => row?.students,
+      selector: (row) => row?.countStudents,
       sortable: true,
       cell: (row) => {
-        return row?.students;
+        return row?.countStudents;
       },
     },
     {
@@ -172,10 +172,10 @@ export default function SigleSchool(props) {
                 </p>
                 <div className="d-flex">
                   <p style={{ width: "45%" }}>
-                    Số lượng môn học: <b>{data.subjects?.length}</b>
+                    Số lượng môn học: <b>{data.countStudents}</b>
                   </p>
                   <p>
-                    Số lượng học sinh: <b>{data.students?.length}</b>
+                    Số lượng học sinh: <b>{data.countSubjects}</b>
                   </p>
                 </div>
               </Card>
@@ -229,9 +229,6 @@ export default function SigleSchool(props) {
               pagination
               paginationServer
             />
-            <Button color="primary" onClick={function noRefCheck() {}}>
-              Open
-            </Button>
           </CardBody>
         </Card>
       </Container>
