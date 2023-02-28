@@ -1,47 +1,54 @@
-import DataTable, { createTheme } from 'react-data-table-component';
-import { Spinner } from 'reactstrap';
+import DataTable, { createTheme } from "react-data-table-component";
+import { Spinner } from "reactstrap";
 
-createTheme('solarized', {
+createTheme("solarized", {
   text: {
-    primary: '##737f8d',
-    secondary: '#5e72e4',
+    primary: "#000",
+    secondary: "#268bd2",
   },
   background: {
-    default: '##cb4b16',
+    default: "#fff",
   },
   context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
+    background: "#cb4b16",
+    text: "#FFFFFF",
   },
   divider: {
-    default: '#073642',
+    default: "#dadada",
   },
   action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
+    button: "rgba(0,0,0,.54)",
+    hover: "rgba(0,0,0,.08)",
+    disabled: "rgba(0,0,0,.12)",
   },
 });
 
 const customStyles = {
   headRow: {
     style: {
-      backgroundColor: '#f6f9fc',
-      borderColor: '#e9ecef',
-      fontSize: '0.65rem',
-      textTransform: 'uppercase',
-      letterSpacing: '1px',
-      fontWeight: 'bold',
+      backgroundColor: "#f6f9fc",
+      borderColor: "#e9ecef",
+      fontSize: "0.65rem",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+      fontWeight: "bold",
     },
   },
   cells: {
     style: {
-      borderColor: '#e9ecef',
+      borderColor: "#e9ecef",
     },
   },
 };
 const CustomDataTable = (props) => {
-  const { columns, data, selectableRows, onSelectedRowsChange, tableTitle, progressPending } = props;
+  const {
+    columns,
+    data,
+    selectableRows,
+    onSelectedRowsChange,
+    tableTitle,
+    progressPending,
+  } = props;
 
   const renderLoading = () => {
     return (

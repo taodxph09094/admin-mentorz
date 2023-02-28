@@ -34,6 +34,7 @@ const Users = (props) => {
   const columns = [
     {
       name: "STT",
+      width: "8%",
       selector: (row) => index++,
       sortable: true,
     },
@@ -49,6 +50,7 @@ const Users = (props) => {
       allowOverflow: true,
       name: "Họ tên",
       sortable: true,
+      width: "20%",
     },
     {
       name: "Email",
@@ -118,6 +120,7 @@ const Users = (props) => {
     };
     getUsers._postData(AUTH_URL.GET_USERS, payload).then();
   }, [paramRequest]);
+
   const create = () => {
     setModalCreateOpen(!modalCreateOpen);
   };
@@ -126,9 +129,9 @@ const Users = (props) => {
       <Container className="mt-3" fluid>
         <Card className="bg-secondary shadow border-0 mt-4">
           <CardHeader className="row panel-card-header-custom">
-            <h1 className="font-weight-bold col-sm-3">
+            <h2 className="font-weight-bold col-sm-3">
               Danh sách tài khoản người dùng
-            </h1>
+            </h2>
             {/* <div className="col-sm-9 text-right">
               <Button color="primary" type="button" onClick={create}>
                 Tạo tài khoản mới

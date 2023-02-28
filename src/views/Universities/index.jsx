@@ -42,6 +42,7 @@ const Universities = (props) => {
   const columns = [
     {
       name: "STT",
+      width: "8%",
       selector: (row) => index++,
       sortable: true,
     },
@@ -57,6 +58,7 @@ const Universities = (props) => {
       allowOverflow: true,
       name: "Tên trường",
       sortable: true,
+      width: "30%",
     },
     {
       name: "Tên viết tắt",
@@ -212,9 +214,9 @@ const Universities = (props) => {
         </Card>
         <Card className="bg-secondary shadow border-0 mt-4">
           <CardHeader className="row panel-card-header-custom">
-            <h1 className="font-weight-bold col-sm-3">
+            <h2 className="font-weight-bold col-sm-3">
               Danh sách trường đại học
-            </h1>
+            </h2>
             <div className="col-sm-9 text-right">
               <Button color="primary" type="button" onClick={create}>
                 Thêm trường

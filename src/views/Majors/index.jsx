@@ -48,6 +48,7 @@ const Majors = () => {
   const columns = [
     {
       name: "STT",
+      width: "8%",
       selector: (row) => index++,
       sortable: true,
     },
@@ -57,6 +58,7 @@ const Majors = () => {
       allowOverflow: true,
       name: "Tên chuyên ngành",
       sortable: true,
+      width: "22%",
     },
     {
       name: "Khối",
@@ -314,9 +316,9 @@ const Majors = () => {
           </Card>
           <Card className="bg-secondary shadow border-0 mt-4">
             <CardHeader className="row panel-card-header-custom">
-              <h1 className="font-weight-bold col-sm-3">
+              <h2 className="font-weight-bold col-sm-3">
                 Danh sách chuyên ngành
-              </h1>
+              </h2>
               <div className="col-sm-9 text-right">
                 <Button color="primary" type="button" onClick={create}>
                   Thêm chuyên ngành mới

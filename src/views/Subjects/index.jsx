@@ -48,6 +48,7 @@ const Subjects = () => {
   const columns = [
     {
       name: "STT",
+      width: "8%",
       selector: (row) => index++,
       sortable: true,
     },
@@ -63,6 +64,7 @@ const Subjects = () => {
       allowOverflow: true,
       name: "Tên môn học",
       sortable: true,
+      width: "25%",
     },
     {
       name: "Khối",
@@ -320,7 +322,7 @@ const Subjects = () => {
         </Card>
         <Card className="bg-secondary shadow border-0 mt-4">
           <CardHeader className="row panel-card-header-custom">
-            <h1 className="font-weight-bold col-sm-3">Danh sách môn học</h1>
+            <h2 className="font-weight-bold col-sm-3">Danh sách môn học</h2>
             <div className="col-sm-9 text-right">
               <Button color="primary" type="button" onClick={create}>
                 Thêm môn học mới
